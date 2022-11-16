@@ -1,7 +1,7 @@
-﻿#include <stdio.h>
+#include <stdio.h>
 #define SIZE 5
 
-void modifyArray(int n[], int size);
+void modifyArray(int b[], int size);
 
 int main(void)
 {
@@ -12,13 +12,13 @@ int main(void)
 	modifyArray(n, SIZE);
 }
 
-void modifyArray(int n[], int size)
+void modifyArray(int b[], int size)
 {
-	for (int i = 0; i < SIZE; i++)
+	for (int i = 0; i < size; i++)
 	{
-		printf("%7u%13d  	    ", i, n[i]);
+		printf("%7u%13d  	    ", i, b[i]);
 
-		for (int j = 0; j <= n[i]; j++)
+		for (int j = 1; j <= b[i]; j++)
 		{
 			printf("*");
 		}
