@@ -1,24 +1,22 @@
 #include<stdio.h>
 #define SIZE 10
 
-void sort(int pp[], int rel[], int size);
+void sort(int ppl[], int rel[], int size);
 
 int main(void)
 {
 	int a[SIZE] = { 2,6,4,8,10,12,89,68,45,37 };
-	int c[SIZE] = { 66,67,66,70,73,74,75,75,62,32 };
-	
+	int c[SIZE] = { 66,67,87,70,73,74,75,98,62,32 };
+
 	puts("Data items in original order");
 
 	for (int i = 0; i < SIZE; ++i)
 	{
+		printf("\n");
 		printf("%4d", a[i]);
-	}
-	puts("");
-	for (int i = 0; i < SIZE; ++i)
-	{
 		printf("%4d", c[i]);
 	}
+	puts("");
 
 	sort(a, c, SIZE);
 
@@ -26,31 +24,29 @@ int main(void)
 
 	for (int i = 0; i < SIZE; ++i)
 	{
+		printf("\n");
 		printf("%4d", a[i]);
-	}
-	puts("");
-	for (int i = 0; i < SIZE; ++i)
-	{
 		printf("%4d", c[i]);
 	}
+	puts("");
 
 }
 
-void sort(int pp[], int rel[], int size)
+void sort(int ppl[], int rel[], int size)
 {
 	int hold;
 	for (unsigned int pass = 1; pass < size; ++pass)
 	{
-		for (int i = 0; i < size-pass ; ++i)
+		for (int i = 0; i < size - pass; ++i)
 		{
 			if (rel[i] > rel[i + 1])
 			{
 				hold = rel[i];
 				rel[i] = rel[i + 1];
 				rel[i + 1] = hold;
-				hold = pp[i];
-				pp[i] = pp[i + 1];
-				pp[i + 1] = hold;
+				hold = ppl[i];
+				ppl[i] = ppl[i + 1];
+				ppl[i + 1] = hold;
 			}
 		}
 	}
