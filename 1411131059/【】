@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include<stdlib.h>
+#include<ctype.h>
+
+int upper(char* str);
+int lower(char* str);
+int num(char* str);
+
+int main(void)
+{                     
+	int i = 0;
+	int (*f[3])(char*) = { upper,lower,num };
+    char str[] = "abcDEFG34";
+	while (str[i] != '\0')
+	{
+		if (isupper(str[i]))
+		{
+			(*f[0])(str);
+		}
+		if (islower(str[i]))
+		{
+			(*f[1])(str);
+		}
+		if (isdigit(str[i]))
+		{
+			(*f[2])(str);
+		}
+		i++;
+	}
+}
+
+int upper(char* str)
+{
+		int cntA = 0;
+		cntA += 1;
+		printf("%d,", cntA);
+		return cntA;
+}
+int lower(char* str)
+{
+	int cnta = 0;
+	cnta += 1;
+	printf("%d", cnta);
+	return cnta;
+}
+int num(char* str)
+{
+	int cnt1 = 0;
+	cnt1 += 1;
+	printf("%d", cnt1);
+	return cnt1;
+}
