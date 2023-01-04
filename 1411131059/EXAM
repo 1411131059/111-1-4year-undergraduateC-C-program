@@ -4,6 +4,7 @@
 
 void sort(const char** name, int a[][SIZE], int size);
 void swap(int* e1Ptr, int* e2Ptr);
+//double average(int a[][SIZE], int student);
 
 int main(void)
 {
@@ -118,3 +119,12 @@ void swap(int* e1Ptr, int* e2Ptr)
     *e2Ptr = hold;
 }
 
+double average(int a[][SIZE], int student)
+{
+    int total = 0;
+    for (int i = 0; i < student; ++i)
+    {
+        total += a[i][3];
+    }
+    return(double)total / student;
+}
