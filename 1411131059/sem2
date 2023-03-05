@@ -1,116 +1,50 @@
-#include <stdio.h>
-#define ID 10
-#define SIZE 4
+#include<stdio.h>
 
-void sort(const char** name, int a[][SIZE], int size);
-void swap(int* e1Ptr, int* e2Ptr);
+void displayBits(unsigned int value, int dir, int num);
 
 int main(void)
 {
-    int  j;
-    struct student
-    {
-        char name[ID];
-        unsigned int stu_id;
-        float math;
-        float com;
-        float avg;
-    };
-
-    typedef struct student  STUDENT;
-    STUDENT stu, stu_class[ID] = { {"Alan", 2,98,72,0},
-                                   {"Ben", 3,76,32,0},
-                                   {"Candy", 6,98,67,0},
-                                   {"Derril",7,89,32,0},
-                                   {"Elien", 8,98,55,0},
-                                   {"Franklin", 9,89,32,0},
-                                   {"Gary", 10,98,65,0},
-                                   {"Howard", 11,99,32,0},
-                                   {"Iris", 12,98,71,0},
-                                   {"Jason", 13,76,91,0} };
-
-
-    puts("Data items in original order");
-    printf("%8s%4s%8s%8s%14s\n", "Name:", "ID", "MATH","COM","Averages");
-    for (j = 0; j < ID; j++)
-    {
-        stu_class[j].avg = (stu_class[j].math + stu_class[j].com) / 2;
-    }
-
-    for (j = 0; j < ID; j++)
-    {
-        printf("%8s", stu_class[j].name);
-        printf("%4d", stu_class[j].stu_id);
-        printf("    %.2f", stu_class[j].math);
-        printf("    %.2f", stu_class[j].com);
-        printf("    %.2f", stu_class[j].avg);
-        printf("\n");
-    }
-}
-/*
-    sort(name, a, ID);
-    puts("\nData items in ascending order");
-    printf("%20s%4s%7s%11s\n", "Name:", "ID", "Score", "Averages");
-    for (j = 0; j < ID; j++)
-    {
-        printf(" Rank %4d. ", j + 1);
-        printf("%8s", name[j]);
-        for (i = 0; i < SIZE; ++i) {
-            printf("%4d", a[j][i]);
-        }
-        printf("\n");
-    }
-
-    puts("");
-
-    int mid = (0 + (ID - 1)) / 2;
-    printf("\n  中位數: %4d\n", a[mid][3]);
-    printf("  最高：");
-    printf("%8s", name[0]);
-    for (j = 0; j < SIZE; j++)
-    {
-        printf("%4d", a[0][j]);
-    }
-    printf("\n  最低：");
-    printf("%8s", name[9]);
-    for (j = 0; j < SIZE; j++)
-    {
-        printf("%4d", a[9][j]);
-    }
-    puts("");
+	unsigned int x;
+	printf("%s", "Enter a nonnegative int: ");
+	scanf_s("%u", &x);
+	displayBits(x,1,1);
 }
 
-
-void sort(const char** name, int a[][SIZE], int size)
+void displayBits(unsigned int value, int dir, int num)
 {
-    const char* ptr;
-    int hold, pass, i;
-    for (pass = 1; pass < size; ++pass) {
+	unsigned int temp,displayMask = 1 << 31;
+	printf("%10u = ", value);
+	temp = value;
+	for (unsigned int i = 1; i <= 31; ++i)
+	{
+		putchar(temp & displayMask ? '1' : '0');
+		temp <<= 1;
 
-        // loop to control number of comparisons per pass   
-        for (i = 0; i < size - pass; ++i) {
+		if (i % 8 == 0)
+		{
+			putchar(' ');
+		}
+	}
 
-            // compare adjacent elements and swap them if first 
-            // element is greater than second element           
-            if (a[i][3] < a[i + 1][3]) {
-                ptr = name[i];
-                name[i] = name[i + 1];
-                name[i + 1] = ptr;
-                swap(&a[i][0], &a[i + 1][0]);
-                swap(&a[i][1], &a[i + 1][1]);
-                swap(&a[i][2], &a[i + 1][2]);
-                swap(&a[i][3], &a[i + 1][3]);
-            }
-        }
-    }
+	if (dir == 0)
+	{
+		value = value << num;
+	}
+	else
+	{
+		value = value >> num;
+	}
 
+	for (unsigned int i = 1; i <= 31; ++i)
+	{
+		putchar(value & displayMask ? '1' : '0');
+		value <<= 1;
+
+		if (i % 8 == 0)
+		{
+			putchar(' ');
+		}
+	}
+	
+	putchar('\n');
 }
-
-void swap(int* e1Ptr, int* e2Ptr)
-{
-    int hold;
-    hold = *e1Ptr;
-    *e1Ptr = *e2Ptr;
-    *e2Ptr = hold;
-}
-*/
