@@ -1,50 +1,90 @@
-#include<stdio.h>
+#include <stdio.h>
 
-void displayBits(unsigned int value, int dir, int num);
+struct student
+{
+    unsigned int StuNum;
+    char Name[20];
+    int math, com;
+    double average;
+};
+
+typedef struct student StuData;
+
+void blank(FILE* cfPtr);
+void write(FILE* cfPtr);
+void read(FILE* cfPtr);
 
 int main(void)
 {
-	unsigned int x;
-	printf("%s", "Enter a nonnegative int: ");
-	scanf_s("%u", &x);
-	displayBits(x,1,1);
+    FILE* cfPtr;
+    blank(cfPtr);
+    write(cfPtr);
+    read(cfPtr);
 }
 
-void displayBits(unsigned int value, int dir, int num)
+void blank(FILE* cfPtr)
 {
-	unsigned int temp,displayMask = 1 << 31;
-	printf("%10u = ", value);
-	temp = value;
-	for (unsigned int i = 1; i <= 31; ++i)
-	{
-		putchar(temp & displayMask ? '1' : '0');
-		temp <<= 1;
+    if ((cfPtr = fopen("accounts.dat","wb")) == NULL)
+    {
+        puts("File could not be opened.");
+    }
+    else
+    {
+        StuData blankStu = { 0,"",0.0 };
+        for (unsigned int i = 1; i <= 100; i++)
+        {
+            fwrite(&blankStu, sizeof(StuData), 1, cfPtr);
+        }
+        fclose(cfPtr);
+    }
+}
 
-		if (i % 8 == 0)
-		{
-			putchar(' ');
-		}
-	}
+void write(FILE* cfPtr)
+{
+    if ((cfPtr = fopen("accounts.dat", "rb+")) == NULL)
+    {
+        puts("File could not be opened.");
+    }
+    else
+    {
+        StuData student = { 0,"",0.0 };
+        printf("%s", "Enter student number""(1 to 100, 0 to end input): ");
+        scanf("%d", &student.StuNum);
 
-	if (dir == 0)
-	{
-		value = value << num;
-	}
-	else
-	{
-		value = value >> num;
-	}
+        while (student.StuNum != 0)
+        {
+            printf("%s", "\nEnter name, average: ");
+            fscanf(stdin, "%14s%9s%lf", student.Name, &student.average);
+            fseek(cfPtr, (student.StuNum - 1) * sizeof(StuData), SEEK_SET);
+            fwrite(&student, sizeof(StuData), 1, cfPtr);
+            printf("%s", "\nEnter student number: ");
+            scanf("%d", &student.StuNum);
+        }
+        fclose(cfPtr);
+    }
+}
 
-	for (unsigned int i = 1; i <= 31; ++i)
-	{
-		putchar(value & displayMask ? '1' : '0');
-		value <<= 1;
+void read(FILE* cfPtr)
+{
+    if ((cfPtr = fopen("accounts.dat", "rb")) == NULL)
+    {
+        puts("File could not be opened.");
+    }
+    else
+    {
+        printf("%-6s%-16s%-11s%10s\n", "Num", "Name", "average");
 
-		if (i % 8 == 0)
-		{
-			putchar(' ');
-		}
-	}
-	
-	putchar('\n');
+        while (!feof(cfPtr))
+        {
+            StuData student = { 0,"",0.0 };
+
+            int result = fread(&student, sizeof(StuData), 1, cfPtr);
+
+            if (result != 0 & &student.StuNum != 0)
+            {
+                printf("%-6d%-19s%-10.2f\n", student.StuNum, student.Name, student.average);
+            }
+        }
+        fclose(cfPtr);
+    }
 }
