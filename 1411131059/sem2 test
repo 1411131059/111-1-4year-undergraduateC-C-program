@@ -33,7 +33,7 @@ int main(void)
         while (student.StuNum != 0)
         {
             printf("%s", "\nEnter name, average: ");
-            fscanf(stdin, "%14s%9s%lf", student.Name, &student.average);
+            fscanf(stdin, "%14s%lf", student.Name, &student.average);
             fseek(cfPtr, (student.StuNum - 1) * sizeof(StuData), SEEK_SET);
             fwrite(&student, sizeof(StuData), 1, cfPtr);
             printf("%s", "\nEnter student number: ");
@@ -48,7 +48,7 @@ int main(void)
     }
     else
     {
-        printf("%-6s%-19s%10s\n", "Num", "Name", "average");
+        printf("%-6s%-19s%6s\n", "Num", "Name", "average");
 
         while (!feof(cfPtr))
         {
