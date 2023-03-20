@@ -34,7 +34,7 @@ int main(void)
         {
             printf("%s", "Enter name, math, com: ");
             fscanf(stdin, "%14s%d%d", student.Name, &student.math, &student.com);
-            student.average = (student.math + student.com) / 2;
+            student.average = (double) (student.math + student.com) / 2;
             fseek(cfPtr, (student.StuNum - 1) * sizeof(StuData), SEEK_SET);
             fwrite(&student, sizeof(StuData), 1, cfPtr);
             printf("%s", "\nEnter student number: ");
