@@ -1,0 +1,124 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+// self-referential structure                       
+struct listNode {
+    int ID; // each listNode contains an integer ID 
+    char name[20]; // and a string name
+    struct listNode* nextPtr; // pointer to next node
+};
+
+typedef struct listNode ListNode; // synonym for struct listNode
+typedef ListNode* ListNodePtr; // synonym for ListNode*
+
+// function prototypes
+void insert(ListNodePtr* sPtr, int id, char* name);
+int isEmpty(ListNodePtr sPtr);
+void printList(ListNodePtr currentPtr);
+void instructions(void);
+
+int main(void)
+{
+    ListNodePtr startPtr = NULL; // initially there are no nodes
+    int id;
+    char name[20];
+
+    instructions(); // display the menu
+    printf("%s", "? ");
+    unsigned int choice; // user's choice
+    scanf("%u", &choice);
+
+    // loop while user does not choose 3
+    while (choice != 3) {
+
+        switch (choice) {
+        case 1:
+            printf("%s", "請輸入學號: ");
+            scanf("%d", &id);
+            printf("%s", "請輸入姓名: ");
+            scanf("%s", name);
+            insert(&startPtr, id, name); // insert item in list
+            printList(startPtr);
+            break;
+        default:
+            puts("Invalid choice.\n");
+            instructions();
+            break;
+        } // end switch
+
+        printf("%s", "? ");
+        scanf("%u", &choice);
+    }
+
+    puts("End of run.");
+}
+
+// display program instructions to user
+void instructions(void)
+{
+    puts("Enter your choice:\n"
+        "   1 to insert an element into the list.\n"
+        "   2 to delete an element from the list.\n"
+        "   3 to end.");
+}
+
+// insert a new value into the list in sorted order
+void insert(ListNodePtr* sPtr, int id, char* name)
+{
+    ListNodePtr newPtr = malloc(sizeof(ListNode)); // create node
+
+    if (newPtr != NULL) { // is space available
+        newPtr->ID = id; // place value in node
+        strncpy(newPtr->name, name, 20); // copy name into node
+        newPtr->name[19] = '\0'; // ensure null-termination
+        newPtr->nextPtr = NULL; // node does not link to another node
+
+        ListNodePtr previousPtr = NULL;
+        ListNodePtr currentPtr = *sPtr;
+
+        // loop to find the correct location in the list       
+        while (currentPtr != NULL && id > currentPtr->ID) {
+            previousPtr = currentPtr; // walk to ...               
+            currentPtr = currentPtr->nextPtr; // ... next node 
+        }
+
+        // insert new node at beginning of list
+        if (previousPtr == NULL) {
+            newPtr->nextPtr = *sPtr;
+            *sPtr = newPtr;
+        }
+        else { // insert new node between previousPtr and currentPtr
+            previousPtr->nextPtr = newPtr;
+            newPtr->nextPtr = currentPtr;
+        }
+    }
+    else {
+        printf("%d not inserted. No memory available.\n", id);
+    }
+}
+
+// return 1 if the list is empty, 0 otherwise
+int isEmpty(ListNodePtr sPtr)
+{
+    return sPtr == NULL;
+}
+// print the list
+void printList(ListNodePtr currentPtr)
+{
+    // if list is empty
+    if (isEmpty(currentPtr)) {
+        puts("List is empty.\n");
+    }
+    else {
+        puts("鏈結串列內容為:");
+
+        // while not the end of the list
+        while (currentPtr != NULL) {
+            printf("%d %s--> ", currentPtr->ID, currentPtr->name);
+            currentPtr = currentPtr->nextPtr;
+        }
+
+        puts("NULL\n");
+    }
+}
